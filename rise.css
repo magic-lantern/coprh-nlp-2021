@@ -1,0 +1,11 @@
+#rise-header, #rise-footer{
+  left: 10rem;
+}
+
+#rise-header {
+  padding-top: 1rem;
+}
+
+/* #rise-overlay a {
+  color: blue;
+} */
