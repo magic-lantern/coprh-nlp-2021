@@ -16,6 +16,6 @@ conda create -n coprh python=3.7
 conda activate coprh
 conda config --add channels conda-forge
 conda install -c fastai fastbook sentencepiece
-conda install jupytext
-conda install -c conda-forge rise
+conda install -c conda-forge rise jupyter_nbextensions_configurator jupytext
+jupyter nbextension enable hide_input/main
 ```

@@ -39,7 +39,7 @@ Learners should have:
 1. How to use and learn more about some basic NLP techniques.
 <!-- #endregion -->
 
-```python slideshow={"slide_type": "slide"} hide_input=true
+```python hide_input=true slideshow={"slide_type": "slide"}
 Image(filename='./pictures/natgeo_2011.png') 
 ```
 
@@ -47,7 +47,7 @@ Image(filename='./pictures/natgeo_2011.png')
 Some of you may have heard of the many successes of Natural Language Processing. It has been highly lauded in the popular news as well as more academic circles for many years. One popular event about - described in this 2011 national geograpic article from 10 years ago was the match up of Jeopardy champion vs IBM's Question Answering system called "Watson" named for IBMs founder and first CEO Thomas J. Watson
 <!-- #endregion -->
 
-```python slideshow={"slide_type": "slide"}
+```python hide_input=true slideshow={"slide_type": "slide"}
 Image(filename='./pictures/nyt_2020.png')
 ```
 
@@ -55,14 +55,14 @@ Image(filename='./pictures/nyt_2020.png')
 More recently companies such as OpenAI - this image is from 2020 - have made additional breakthroughs that have caught popular imagination and fear in some cases for the ability for software to generate and appear to understand text.
 <!-- #endregion -->
 
-```python slideshow={"slide_type": "slide"} hide_input=true
+```python hide_input=true slideshow={"slide_type": "slide"}
 Image(filename='./pictures/wsj_2021.png')
 ```
 
 <!-- #region slideshow={"slide_type": "notes"} -->
 As with any technology sometimes the hype doesn't live up to reality and as shown in this February 2021 article, even the amazing Watson may have to be put to pasture like a has been race horse.
 
-openai gpt-3 training at least 4.6 million in hardware costs + many people
+openai gpt-3 training at least 4.6 million in hardware costs + many people and their wages
 
 https://bdtechtalks.com/2020/09/21/gpt-3-economy-business-model/
 <!-- #endregion -->
@@ -100,11 +100,11 @@ After seeing and hearing of the amazing things NLP can do, everyone wants to get
 
 <!-- #endregion -->
 
-```python slideshow={"slide_type": "subslide"} hide_input=true
+```python hide_input=true slideshow={"slide_type": "subslide"}
 Image(filename='./pictures/google_information_extraction.png')
 ```
 
-```python slideshow={"slide_type": "subslide"} hide_input=true
+```python hide_input=true slideshow={"slide_type": "subslide"}
 Image(filename='./pictures/wapost_2021.png')
 ```
 
@@ -112,11 +112,12 @@ Image(filename='./pictures/wapost_2021.png')
 # Some common techniques
 
 * Regular expressions
+* Lexical Analysis
 * Stemming
 * Lemmatization
 * Stop word removal
 * Word to vector representations
-* Language Modeling
+* Language Models as basis for various tasks
 <!-- #endregion -->
 
 <!-- #region slideshow={"slide_type": "notes"} -->
@@ -126,6 +127,28 @@ Image(filename='./pictures/wapost_2021.png')
 * Stop word removal - Removing high frequency, low meaning words.
 * Word to Vector - Most machine learning techniques require numeric input. There are various algorithms for converting words to numbers in a high dimensional vector space
 <!-- #endregion -->
+
+```python hide_input=true slideshow={"slide_type": "subslide"}
+Image(filename='./pictures/parse_tree.png')
+```
+
+<!-- #raw slideshow={"slide_type": "notes"} -->
+consider the sentence "John hit the ball" Breaking this down into nouns, verbs, etc you come up with a structure like this which is how linguists explain how your brain makes sense of a sentence.
+
+After show parse tree go back to list.
+<!-- #endraw -->
+
+```python hide_input=true slideshow={"slide_type": "subslide"}
+Image(filename='./pictures/model_size_over_time_part1.png')
+```
+
+```python hide_input=true slideshow={"slide_type": "subslide"}
+Image(filename='./pictures/model_size_over_time_part2.png')
+```
+
+```python hide_input=true slideshow={"slide_type": "subslide"}
+Image(filename='./pictures/bert.png')
+```
 
 <!-- #region slideshow={"slide_type": "slide"} -->
 ##  “We are coming now rather into the region of guesswork,” said Dr. Mortimer.
@@ -181,6 +204,8 @@ Sir Arthur Conan Doyle
 
 <!-- #region slideshow={"slide_type": "notes"} -->
 Historically, NLP systems were rule based - either rules based on grammar or rules based on matching specific words and phrases. Any domain expert can identify common words and phrases that could be used to identify specific elements in text for example. More specialized NLP experts where often Linguists - computational linguists - who codified rules of English and created complex sentence parse trees to then identify where information of a certain type would be found. It's my semi-educated guess that the rule based type of NLP is probably the most common and most popular.
+
+Next we get into how to fill your brain with techniques and tools for natural language processing
 <!-- #endregion -->
 
 ```python slideshow={"slide_type": "slide"}
@@ -203,7 +228,7 @@ def get_sections(instr):
     return {m.group(1).strip() : m.group(3).strip() for m in get_sections_pat.finditer(instr)}
 ```
 
-```python slideshow={"slide_type": "subslide"} hide_input=true
+```python hide_input=true slideshow={"slide_type": "subslide"}
 Image(filename='./pictures/regex_example.png')
 ```
 
@@ -240,6 +265,31 @@ def find_match(search_term, domain=None, candidate_order=None, previous_concept=
         df = concept_df[(concept_df.concept_no_spec_char == st_no_spec_char) & (concept_df.domain_id == domain)].copy()
         if debug: print('Found match based on search term with removing special characters and domain')
 ```
+
+<!-- #region slideshow={"slide_type": "slide"} -->
+## BERT applied to concept matching
+
+Given a language model that can predict words in sentences, you can apply this to identifying how similar one sentence is to another.
+
+
+    Attempting to match: Lymph-Vascular Invasion
+      top precision results: tensor([0.8579, 0.7961, 0.7620])
+      top precision matches: ['lymphovascular invasion' 'perineural invasion' 'seminal vesicle invasion']
+      top recall results: tensor([0.9087, 0.8359, 0.7944])
+      top recall matches: ['lymphovascular invasion' 'perineural invasion' 'seminal vesicle invasion']
+      top F1 results: tensor([0.8825, 0.8155, 0.7779])
+      top F1 matches: ['lymphovascular invasion' 'perineural invasion' 'seminal vesicle invasion']
+<!-- #endregion -->
+
+<!-- #region slideshow={"slide_type": "subslide"} -->
+    Attempting to match: Number of Lymph Nodes Involved/ Examined
+      top precision results: tensor([0.8756, 0.8709, 0.7688])
+      top precision matches: ['number of lymph nodes involved' 'number of lymph nodes examined' 'size of largest lymph node involved in centimeters cm']
+      top recall results: tensor([0.9483, 0.9405, 0.7751])
+      top recall matches: ['number of lymph nodes involved' 'number of lymph nodes examined' 'no lymph nodes submitted or found']
+      top F1 results: tensor([0.9105, 0.9044, 0.7661])
+      top F1 matches: ['number of lymph nodes involved' 'number of lymph nodes examined' 'no lymph nodes submitted or found']
+<!-- #endregion -->
 
 <!-- #region slideshow={"slide_type": "slide"} -->
 ## “Data! data! data!” he cried impatiently. “I can’t make bricks without clay.”
@@ -292,7 +342,7 @@ Sir Arthur Conan Doyle
 * Precision vs Recall trade off
 <!-- #endregion -->
 
-```python slideshow={"slide_type": "subslide"} hide_input=true
+```python hide_input=true slideshow={"slide_type": "subslide"}
 Image(filename='./pictures/error_analysis.png')
 ```
 
