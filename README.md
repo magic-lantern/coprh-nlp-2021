@@ -21,7 +21,8 @@ Then run the following steps
 conda create -n coprh python=3.7
 conda activate coprh
 conda config --add channels conda-forge
-conda install -c fastai fastbook sentencepiece
-conda install -c conda-forge rise jupyter_nbextensions_configurator jupytext
+#conda install -c fastai fastbook sentencepiece
+conda install -c conda-forge rise jupyter_nbextensions_configurator jupytext jupyterlab
+conda install -c fastchan fastai
 jupyter nbextension enable hide_input/main
 ```
