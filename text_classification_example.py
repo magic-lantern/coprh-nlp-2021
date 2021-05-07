@@ -13,7 +13,17 @@
 # ---
 
 # %%
+import fastbook
+
+# %%
+fastbook.setup_book()
+
+# %%
+fastbook.gdrive
+
+# %%
 from fastai.text.all import *
+import fastai as f
 
 # %%
 who
@@ -23,6 +33,20 @@ Path.cwd()
 
 # %%
 data_path = Path.cwd() / Path('data')
+data_file = data_path / 'mtsamples.csv'
+
+# %%
+data_file
+
+# %%
+if data_file.is_file():
+    print('Already downloaded')
+else:
+    print('downloading data file')
+    download_data(
+        url='https://github.com/socd06/medical-nlp/raw/master/data/mtsamples.csv',
+        fname = data_file
+    )
 
 # %%
 mtsamples = pd.read_csv(str(data_path) + '/mtsamples.csv')
@@ -47,22 +71,14 @@ mtsamples.medical_specialty.value_counts()
 # ```
 
 # %%
-get_imdb = partial(get_text_files, folders=['train', 'test', 'unsup'])
-
-dls_lm = DataBlock(
-    blocks=TextBlock.from_folder(path, is_lm=True),
-    get_items=get_imdb, splitter=RandomSplitter(0.1)
-).dataloaders(path, path=path, bs=128, seq_len=80)
-
-# %%
-dls_lm = DataBlock(
-    blocks=(TextBlock.from_df('transcription', is_lm=True), CategoryBlock),
-    get_x=ColReader('transcription'), 
-    get_y=ColReader('medical_specialty'),
-    splitter=TrainTestSplitter(test_size=0.2,
-                               random_state=42,
-                               stratify=mtsamples.medical_specialty)
-)
+# dls_lm = DataBlock(
+#     blocks=(TextBlock.from_df('transcription', is_lm=True), CategoryBlock),
+#     get_x=ColReader('transcription'), 
+#     get_y=ColReader('medical_specialty'),
+#     splitter=TrainTestSplitter(test_size=0.2,
+#                                random_state=42,
+#                                stratify=mtsamples.medical_specialty)
+# )
 
 # %%
 dls_lm = DataBlock(
@@ -89,6 +105,8 @@ learn = language_model_learner(
     metrics=[accuracy, Perplexity()]).to_fp16()
 
 # %%
+# on macbook this takes 40 minues
+# on GPU machine this takes 
 learn.fit_one_cycle(1, 2e-2)
 
 # %%

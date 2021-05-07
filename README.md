@@ -26,3 +26,11 @@ conda install -c conda-forge rise jupyter_nbextensions_configurator jupytext jup
 conda install -c fastchan fastai
 jupyter nbextension enable hide_input/main
 ```
+
+## Items to improve
+
+* Explain more detail about how Deep Learning works - language model building step by step.
+* Sentence detection is an important part of NLP
+* NLP is a multi-step process. Show a diagram and explain. See email from Chris RE: UIMA
+* NLP is not simple or easy. You wont be an NLP expert after this presentation.
+* Maybe include something about http://bionlp-corpora.sourceforge.net/CRAFT/ or similar projects
